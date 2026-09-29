@@ -1,0 +1,215 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ContentStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ContentType {
+  MOVIE
+  EPISODE
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Genre {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  slug         String        @unique
+  imageUrl     String?
+  createdAt    DateTime      @default(now())
+  movieGenres  MovieGenre[]
+  seriesGenres SeriesGenre[]
+
+  @@map("genres")
+}
+
+model Cast {
+  id          Int          @id @default(autoincrement())
+  name        String
+  photoUrl    String?
+  biography   String?
+  createdAt   DateTime     @default(now())
+  movieCasts  MovieCast[]
+  seriesCasts SeriesCast[]
+
+  @@map("cast_members")
+}
+
+model Movie {
+  id          Int          @id @default(autoincrement())
+  title       String
+  slug        String       @unique
+  description String
+  posterUrl   String?
+  backdropUrl String?
+  trailerUrl  String?
+  videoUrl    String?
+  rating      Float        @default(0)
+  year        Int
+  runtime     String?
+  language    String?
+  country     String?
+  director    String?
+  featured    Boolean      @default(false)
+  trending    Boolean      @default(false)
+  popular     Boolean      @default(false)
+  views       Int          @default(0)
+  status      ContentStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  genres      MovieGenre[]
+  cast        MovieCast[]
+  banners     Banner[]
+  watchEvents WatchEvent[]
+
+  @@map("movies")
+}
+
+model MovieGenre {
+  movieId  Int
+  genreId  Int
+  movie    Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre    Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, genreId])
+  @@map("movie_genres")
+}
+
+model MovieCast {
+  movieId       Int
+  castId        Int
+  characterName String?
+  movie         Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  cast          Cast   @relation(fields: [castId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, castId])
+  @@map("movie_cast")
+}
+
+model Series {
+  id          Int           @id @default(autoincrement())
+  title       String
+  slug        String        @unique
+  description String
+  posterUrl   String?
+  backdropUrl String?
+  trailerUrl  String?
+  rating      Float         @default(0)
+  year        Int
+  language    String?
+  country     String?
+  status      ContentStatus @default(ACTIVE)
+  featured    Boolean       @default(false)
+  trending    Boolean       @default(false)
+  popular     Boolean       @default(false)
+  views       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  seasons     Season[]
+  genres      SeriesGenre[]
+  cast        SeriesCast[]
+  banners     Banner[]
+
+  @@map("series")
+}
+
+model Season {
+  id           Int       @id @default(autoincrement())
+  seriesId     Int
+  seasonNumber Int
+  title        String?
+  series       Series    @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  episodes     Episode[]
+
+  @@unique([seriesId, seasonNumber])
+  @@map("seasons")
+}
+
+model Episode {
+  id            Int          @id @default(autoincrement())
+  seasonId      Int
+  episodeNumber Int
+  title         String
+  description   String?
+  thumbnailUrl  String?
+  videoUrl      String?
+  duration      String?
+  releaseDate   DateTime?
+  views         Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  season        Season       @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  watchEvents   WatchEvent[]
+
+  @@unique([seasonId, episodeNumber])
+  @@map("episodes")
+}
+
+model SeriesGenre {
+  seriesId Int
+  genreId  Int
+  series   Series @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  genre    Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([seriesId, genreId])
+  @@map("series_genres")
+}
+
+model SeriesCast {
+  seriesId      Int
+  castId        Int
+  characterName String?
+  series        Series @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  cast          Cast   @relation(fields: [castId], references: [id], onDelete: Cascade)
+
+  @@id([seriesId, castId])
+  @@map("series_cast")
+}
+
+model Banner {
+  id        Int      @id @default(autoincrement())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  movieId   Int?
+  seriesId  Int?
+  buttonText String? @default("Watch Now")
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  movie     Movie?   @relation(fields: [movieId], references: [id], onDelete: SetNull)
+  series    Series?  @relation(fields: [seriesId], references: [id], onDelete: SetNull)
+
+  @@map("banners")
+}
+
+model WatchEvent {
+  id            Int         @id @default(autoincrement())
+  contentType   ContentType
+  movieId       Int?
+  episodeId     Int?
+  sessionId     String
+  watchDuration Int         @default(0)
+  createdAt     DateTime    @default(now())
+  movie         Movie?      @relation(fields: [movieId], references: [id], onDelete: SetNull)
+  episode       Episode?    @relation(fields: [episodeId], references: [id], onDelete: SetNull)
+
+  @@map("watch_events")
+}

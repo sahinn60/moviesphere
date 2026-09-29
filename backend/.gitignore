@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+npm-debug.log*
+
+# Environment - never commit real .env
+.env
+
+# Prisma generated
+prisma/migrations/
+
+# OS
+Thumbs.db
