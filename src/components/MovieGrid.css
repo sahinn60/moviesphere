@@ -1,0 +1,26 @@
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.movie-grid .movie-card { width: 100%; }
+
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.empty-state span { font-size: 0.95rem; }
+
+@media (max-width: 600px) {
+  .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}

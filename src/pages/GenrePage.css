@@ -1,0 +1,19 @@
+.genre-page-hero {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 32px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  margin: 32px 0;
+}
+
+.genre-page-icon { font-size: 3rem; }
+
+.genre-page-hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.genre-page-hero p { color: var(--text-secondary); }

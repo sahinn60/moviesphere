@@ -1,0 +1,25 @@
+.skeleton-card { width: 180px; flex-shrink: 0; }
+
+.skeleton-poster {
+  aspect-ratio: 2/3;
+  border-radius: var(--radius);
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,255,255,0.05) 50%, var(--bg-card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 20px;
+}
+
+.skeleton-grid .skeleton-card { width: 100%; }

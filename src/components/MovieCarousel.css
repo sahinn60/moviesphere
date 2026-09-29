@@ -1,0 +1,44 @@
+.carousel-section { margin-bottom: 48px; }
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carousel-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.carousel-btn:hover {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+}
+
+.carousel-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-track::-webkit-scrollbar { height: 4px; }
+
+.carousel-track .movie-card {
+  scroll-snap-align: start;
+}
+
+@media (max-width: 600px) {
+  .carousel-track .movie-card { width: 140px; }
+}

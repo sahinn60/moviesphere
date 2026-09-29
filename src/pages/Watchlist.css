@@ -1,0 +1,19 @@
+.watchlist-empty {
+  text-align: center;
+  padding: 100px 20px;
+  color: var(--text-muted);
+}
+
+.watchlist-empty svg {
+  margin: 0 auto 24px;
+  opacity: 0.2;
+}
+
+.watchlist-empty h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.watchlist-empty p { font-size: 0.95rem; }

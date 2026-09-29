@@ -1,0 +1,131 @@
+.watch-page { padding-bottom: 60px; }
+
+.watch-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 0 24px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.watch-breadcrumb a { color: var(--text-secondary); transition: color 0.2s; }
+.watch-breadcrumb a:hover { color: white; }
+.watch-breadcrumb span { color: white; }
+
+.watch-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+.watch-info {
+  padding: 24px 0;
+}
+
+.watch-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.watch-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.watch-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+.watch-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.watch-desc {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.watch-related { margin-top: 8px; }
+
+.watch-sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+.sidebar-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+}
+
+.next-card {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+  transition: var(--transition);
+}
+
+.next-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-glass);
+}
+
+.next-card img {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.next-card > div { flex: 1; min-width: 0; }
+
+.next-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.next-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.next-rating {
+  font-size: 0.75rem;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+@media (max-width: 1024px) {
+  .watch-layout { grid-template-columns: 1fr; }
+  .watch-sidebar { position: static; }
+}

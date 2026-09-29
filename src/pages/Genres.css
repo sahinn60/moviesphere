@@ -1,0 +1,10 @@
+.genres-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  padding-bottom: 60px;
+}
+
+@media (max-width: 600px) {
+  .genres-page-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+}
