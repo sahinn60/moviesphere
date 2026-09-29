@@ -10,8 +10,25 @@ const app = express();
 
 // Security
 app.use(helmet());
+
+const allowedOrigins = [
+  FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:3001',
+  // Add your Vercel URL here after deploy
+  /\.vercel\.app$/,
+];
+
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:3000', 'http://localhost:3001'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const allowed = allowedOrigins.some(o =>
+      typeof o === 'string' ? o === origin : o.test(origin)
+    );
+    if (allowed) return callback(null, true);
+    callback(new Error('Not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -22,6 +39,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check
+app.get('/', (req, res) => {
+  res.json({ success: true, message: 'Cinevora API is running', version: '1.0.0', timestamp: new Date().toISOString() });
+});
+
 app.get('/health', (req, res) => {
   res.json({ success: true, message: 'Cinevora API is running', timestamp: new Date().toISOString(), env: NODE_ENV });
 });
@@ -48,7 +69,7 @@ app.use(errorHandler);
 
 const start = async () => {
   await connectDB();
-  app.listen(PORT, () => {
+  app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n🎬 Cinevora API running on http://localhost:${PORT}`);
     console.log(`📖 Health: http://localhost:${PORT}/health`);
     console.log(`🌍 Environment: ${NODE_ENV}\n`);
